@@ -43,6 +43,10 @@ class DataController extends BaseController {
 
 	public function getChapters($book='Gen',$version='eng-GNBDC') {
 
+		$verse_count = 0;
+		$heading_count = 0;
+		$heading_book_count = 0;
+
 		$book_obj = Book::where('abbreviation',$book)
 			->where('version',$version)
 			->first();
@@ -64,6 +68,7 @@ class DataController extends BaseController {
 		       		'chapter' => $chapter,
 		       		'verse' => $verse,
 		       	];
+		       	$heading = Book::firstOrNew(array('version' => $version, 'abbreviation' => $book->abbr));
 		       } else {
 		       	$verse++;
 		       }

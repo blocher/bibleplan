@@ -20,6 +20,8 @@ class CreateHeadingsTable extends Migration {
 			$table->longText('heading_text');
 			$table->string('version');
 			$table->integer('order')->unsigned();
+			$table->integer('book_order')->unsigned();
+			$table->integer('chapter_order')->unsigned();
 			$table->timestamps();
 			$table->softDeletes();
 		});
