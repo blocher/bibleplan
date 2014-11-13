@@ -15,8 +15,10 @@ class CreateHeadingsTable extends Migration {
 		Schema::create('headings', function(Blueprint $table) {
 			$table->increments('id');
 			$table->string('book');
-			$table->smallInteger('chapter')->unsigned();
-			$table->smallInteger('verse')->unsigned();
+			$table->smallInteger('start_chapter')->unsigned();
+			$table->smallInteger('end_chapter')->unsigned();
+			$table->smallInteger('start_verse')->unsigned();
+			$table->smallInteger('end_verse')->unsigned();
 			$table->longText('heading_text');
 			$table->string('version');
 			$table->integer('order')->unsigned();
