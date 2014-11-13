@@ -37,7 +37,7 @@ class BiblesApi {
 
 	}
 
-	public function getPassage($passage="Genesis 1",$version='eng-KJVA') {
+	public function getPassage($passage="Gen 1",$version='eng-KJVA') {
 		
 		$passage = urlencode($passage);
 		$version = urlencode($version);

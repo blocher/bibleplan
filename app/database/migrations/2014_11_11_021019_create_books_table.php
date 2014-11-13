@@ -20,6 +20,7 @@ class CreateBooksTable extends Migration {
 			$table->smallInteger('catholic_order')->unsigned()->nullable();
 			$table->string('testament');
 			$table->string('original_id')->nullable();
+			$table->string('version');
 			$table->smallInteger('end_chapter')->unsigned();
 			$table->smallInteger('end_verse')->unsigned();
 			$table->timestamps();

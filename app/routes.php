@@ -38,3 +38,4 @@ Route::get('/', function()
 });
 
 Route::get('/data/books/', 'DataController@getBooks');
+Route::get('/data/chapters/', 'DataController@getChapters');
