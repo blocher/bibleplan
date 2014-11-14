@@ -16,8 +16,8 @@ class CreateHeadingsTable extends Migration {
 			$table->increments('id');
 			$table->string('book');
 			$table->smallInteger('start_chapter')->unsigned();
-			$table->smallInteger('end_chapter')->unsigned();
 			$table->smallInteger('start_verse')->unsigned();
+			$table->smallInteger('end_chapter')->unsigned();
 			$table->smallInteger('end_verse')->unsigned();
 			$table->longText('heading_text');
 			$table->string('version');

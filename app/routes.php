@@ -25,4 +25,4 @@ Route::get('/', function()
 });
 
 Route::get('/import/books/', 'ImportController@importBooks');
-Route::get('/import/chapters/', 'ImportController@importHeadings');
+Route::get('/import/headings/', 'ImportController@importHeadings');

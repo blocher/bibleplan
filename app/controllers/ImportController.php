@@ -41,8 +41,22 @@ class ImportController extends BaseController {
 	}
 
 
-	public function importHeadings($book='Gen',$version='eng-GNBDC') {
-		echo 'beginning';
+	public function importHeadings($version='eng-GNBDC') {
+
+		$books = Book::where('version',$version)
+			//->where('order','>','41')
+			->orderBy('order','ASC')
+			->get();
+
+		foreach ($books as $book) {
+			$this->importBookHeadings($book,$version);
+		}
+
+	}
+
+	public function importBookHeadings($book_obj,$version='eng-GNBDC') {
+		$book = $book_obj->abbreviation;
+		echo '**** BEGINNING: '.$book.' *******';
 		$heading_order = 1;
 		$heading_book_order = 1;
 		$heading_chapter_order = 1;
@@ -63,71 +77,89 @@ class ImportController extends BaseController {
 		
 			$verse_num = 0;
 			
-			$api = new BiblesApi();
+			$api = new BiblesApi();	
 			$passage = $api->getPassage($book.' '.$chapter,$version);
+
+			if (!isset($passage->response->search->result->passages[0])) {
+				continue;
+			}
 			$result = $passage->response->search->result->passages[0]->text;
 			$html = new Htmldom($result);
 			
 			// Find all images 
 
-			$elements = $html->find('h3');
-			if (count($elements)>0) {
 
-				$elements = $html->find('h3,sup');
-				
-				foreach ($elements as $element) {
-			       if ($element->class=='s1') {
+			$elements = $html->find('h3,sup');
+			
+			foreach ($elements as $element) {
+		       if ($element->class=='s1') {
 
-				       	if (isset($heading) && is_object($heading)) {
-				       		//finish up last round;
-					       	$heading->end_chapter = $previous_chapter;
-					       	$heading->end_verse = $previous_verse;
-					       	$heading->save();
-					       	echo $heading->heading_text.'|'.$heading->start_chapter.':'.$heading->start_verse.'|'
-					       		.$heading->end_chapter.':'.$heading->end_verse.'|'.PHP_EOL;
-					       	$previous_chapter = '';
-					       	$previous_verse = '';
-					    }
+			       	if (isset($heading) && is_object($heading)) {
+			       		//finish up last round;
+				       	$heading->end_chapter = $previous_chapter;
+				       	$heading->end_verse = $previous_verse;
+				       	$heading->save();
+				       	echo $heading->heading_text.'|'.$book.'|'.$heading->start_chapter.':'.$heading->start_verse.'|'
+				       		.$heading->end_chapter.':'.$heading->end_verse.'|'.PHP_EOL;
+				       	$previous_chapter = '';
+				       	$previous_verse = '';
+				    }
+			
+			       	$heading = Heading::firstOrNew(array('version' => $version, 'book' => $book, 
+			       			'start_chapter'=>$chapter, 'start_verse'=>$verse_num+1));
+			       	$heading->book = $book;
+			       	$heading->start_chapter = $chapter;
+			       	$heading->start_verse = $verse_num+1;
+			       	$heading->version = $version;
+			       	$heading->order = $heading_order;
+			       	$heading->book_order = $heading_book_order;
+			       	$heading->chapter_order = $heading_chapter_order;
+			       	$heading->heading_text = $element->plaintext;
+			       	
+			       	$heading_order++;
+			       	$heading_book_order++;
+			       	$heading_chapter_order++;
 
-				       	$heading = Heading::firstOrNew(array('version' => $version, 'book' => $book, 'start_chapter'=>$chapter, 'start_verse'=>$verse_num));
-				       	$heading->book = $book;
-				       	$heading->start_chapter = $chapter;
-				       	$heading->start_verse = $verse_num+1;
-				       	$heading->version = $version;
-				       	$heading->order = $heading_order;
-				       	$heading->book_order = $heading_book_order;
-				       	$heading->chapter_order = $heading_chapter_order;
-				       	$heading->heading_text = $element->plaintext;
-				       	
-				       	$heading_order++;
-				       	$heading_book_order++;
-				       	$heading_chapter_order++;
+		       } else {
+		       		$verse_num = $element->plaintext;
+		       		$verse_num = explode('-',$verse_num);
+		       		
+		       		$previous_verse = count($verse_num)>1 ? intval($verse_num[1]) : intval($verse_num[0]);
+		       		$verse_num = intval($verse_num[0]);
 
-			       } else {
+		       		$previous_chapter = $chapter;
 
-			       		$verse_num = $element->plaintext;
-			       		$verse_num = explode('-',$verse_num);
-			       		$verse_num = intval($verse_num[0]);
-			       		$previous_verse = $verse_num;
-			       		$previous_chapter = $chapter;
-
-			       }
-				}
-
+		       }
 				
 		    }
 
 		    
 		}
+		if (!isset($heading)) {
+			$heading = Heading::firstOrNew(array('version' => $version, 'book' => $book, 
+				       			'start_chapter'=>1, 'start_verse'=>1));
+	       	$heading->book = $book;
+	       	$heading->start_chapter = 1;
+	       	$heading->start_verse = 1;
+	       	$heading->version = $version;
+	       	$heading->order = 1;
+	       	$heading->book_order = 1;
+	       	$heading->chapter_order = 1;
+	       	$heading->heading_text = $book_obj->name;
+	       	
+	       	$heading_order++;
+	       	$heading_book_order++;
+	       	$heading_chapter_order++;
 
-		if (is_object($heading)) {
-       		//finish up end of  book
-	       	$heading->end_chapter = $previous_chapter;
-	       	$heading->end_verse = $previous_verse;
-	       	$heading->save();
-	       	echo $heading->heading_text.'|'.$heading->start_chapter.':'.$heading->start_verse.'|'
-					       		.$heading->end_chapter.':'.$heading->end_verse.'|'.PHP_EOL;
-	     }
+		}
+		
+   		//finish up end of  book
+       	$heading->end_chapter = $previous_chapter;
+       	$heading->end_verse = $previous_verse;
+       	$heading->save();
+       	echo $heading->heading_text.'|'.$book.'|'.$heading->start_chapter.':'.$heading->start_verse.'|'
+				       		.$heading->end_chapter.':'.$heading->end_verse.'|'.PHP_EOL;
+	     pp();
 		 $verse = 0;
 		return View::make('data')
 			->with('result','Bible import finished for version '.$version);
