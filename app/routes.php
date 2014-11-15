@@ -26,3 +26,6 @@ Route::get('/', function()
 
 Route::get('/import/books/', 'ImportController@importBooks');
 Route::get('/import/headings/', 'ImportController@importHeadings');
+
+
+Route::get('/plan/create', 'PlanController@createPlan');

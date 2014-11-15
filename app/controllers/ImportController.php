@@ -2,23 +2,19 @@
 
 class ImportController extends BaseController {
 
-	/*
-	|--------------------------------------------------------------------------
-	| Default Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| You may wish to use controllers instead of, or in addition to, Closure
-	| based routes. That's great! Here is an example controller method to
-	| get you started. To route to this controller, just add the route:
-	|
-	|	Route::get('/', 'HomeController@showWelcome');
-	|
-	*/
 	//eng-GNBDC
+
+	public $version;
+
+	public function __construct($version='eng-GNBDC') {		
+		$this->version = $version;
+	}
+
 	public function importBooks() {
 
 		$api = new BiblesApi();
-		$books = $api->getBooks('eng-KJVA');
+		$version = $this->version;
+		$books = $api->getBooks($version);
 		$books = $books->response->books;
 		foreach ($books as $book) {
 			$version = explode(':',$book->id)[0];
@@ -41,20 +37,19 @@ class ImportController extends BaseController {
 	}
 
 
-	public function importHeadings($version='eng-GNBDC') {
+	public function importHeadings() {
 
-		$books = Book::where('version',$version)
+		$books = Book::where('version',$this->version)
 			//->where('order','>','41')
 			->orderBy('order','ASC')
 			->get();
-
 		foreach ($books as $book) {
-			$this->importBookHeadings($book,$version);
+			$this->importBookHeadings($book,$this->version);
 		}
 
 	}
 
-	public function importBookHeadings($book_obj,$version='eng-GNBDC') {
+	private function importBookHeadings($book_obj,$version='eng-GNBDC') {
 		$book = $book_obj->abbreviation;
 		echo '**** BEGINNING: '.$book.' *******';
 		$heading_order = 1;
@@ -159,7 +154,6 @@ class ImportController extends BaseController {
        	$heading->save();
        	echo $heading->heading_text.'|'.$book.'|'.$heading->start_chapter.':'.$heading->start_verse.'|'
 				       		.$heading->end_chapter.':'.$heading->end_verse.'|'.PHP_EOL;
-	     pp();
 		 $verse = 0;
 		return View::make('data')
 			->with('result','Bible import finished for version '.$version);

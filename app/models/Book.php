@@ -8,4 +8,10 @@ class Book extends Eloquent {
 
 	use SoftDeletingTrait;
 
+	public function headings()
+    {
+        return $this->hasMany('Heading','abbreviation','book')
+        	->orderBy('order', 'ASC');
+    }
+
 }

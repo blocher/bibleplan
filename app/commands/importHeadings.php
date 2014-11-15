@@ -37,7 +37,13 @@ class ImportHeadings extends Command {
 	 */
 	public function fire()
 	{
-		$import = new ImportController();
+
+		$version = $this->argument('version');
+		if (!isset($version) || empty($version)) {
+			$import = new ImportController();
+		} else {
+			$import = new ImportController($version);
+		}
 		$import->importHeadings();
 	}
 
@@ -49,7 +55,7 @@ class ImportHeadings extends Command {
 	protected function getArguments()
 	{
 		return array(
-			//array('example', InputArgument::REQUIRED, 'An example argument.'),
+			array('version', InputArgument::OPTIONAL, 'Version of the Bible'),
 		);
 	}
 
