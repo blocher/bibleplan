@@ -14,14 +14,14 @@ class Day  {
 	public function __construct($headings) {
 
 		$this->headings = $headings;
+		$first = array_shift($headings);
+		$last = array_pop($headings);
 	
-		if (!isset($headings[0])) {
-			pp($headings);
-		}
-		$first = $headings[0];
+		$this->start_chpater = $first->start_chapter;
+		$this->start_verse = $first->start_verse;
 
-
-
+		$this->end_chapter = $last->end_chapter;
+		$this->end_verse = $last->end_verse;
 
 	
 	}
@@ -31,15 +31,23 @@ class Day  {
 	}
 
 	public function getStartVerse() {
-		return $this->start_chapter;
+		return $this->start_verse;
 	}
 
 	public function getEndChapter() {
-		return $this->start_chapter;
+		return $this->end_chapter;
 	}
 
 	public function getEndVerse() {
-		return $this->start_chapter;
+		return $this->end_verse;
+	}
+
+	public function getCount() {
+		return count($this->headings);
+	}
+
+	public function getHeadings() {
+		return $this->headings;
 	}
 	
 }

@@ -31,8 +31,8 @@ class Plan  {
 			->get();
 
 	    $total = count($headings);
-
-		$per_day = ceil($total/$this->num_days);
+		$per_day = floor($total/$this->num_days);
+		$extra = $total % $this->num_days; 
 
 		$num_days = $this->num_days;
 		
@@ -41,21 +41,42 @@ class Plan  {
 		$headings_array = (array)$headings;
 		for ($i=0; $i<$num_days; $i++) {
 			$day = [];
-			for ($j=0; $j<$per_day; $j++) {
+			$max = $i < $extra ? $per_day + 1 : $per_day;
+			for ($j=0; $j<$max; $j++) {
 				$heading = $headings->shift();
 				if ($heading===null) {
 					break;
 				}
 				$day[] = $heading;
 			}
-			foreach ($day as $heading) {
-					echo  $heading->version." ".$heading->book." ".$heading->start_chapter.':'.$heading->start_verse.' to '.$heading->end_chapter.':'.$heading->end_verse.'<br>';;
-			} 
-			$days[] = new Day($day);
-	
-		}
-		$this->days = $days;
 
+			if (count($day)>0) {
+				$days[] = new Day($day);
+			}
+		}
+
+		$total = 0;
+		foreach ($days as $day) {
+			$total += $day->getCount();
+		}
+
+		$this->days = $days;
+	}
+
+	public function displayPlan() {
+
+		if (!isset($this->days) || empty($this->days)) {
+			$this->createPlan();
+		}
+
+		foreach ($this->days as $day) {
+			echo '<strong>New Day</strong><br>';
+			foreach ($day->getHeadings() as $heading) {
+				echo $heading->book.' '.$heading->start_chapter.':'.$heading->start_verse.' to '.$heading->end_chapter.':'.$heading->end_verse.' '.$heading->heading_text.'<br>';
+			}
+
+
+		}
 
 	}
 	

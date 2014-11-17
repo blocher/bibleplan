@@ -29,3 +29,4 @@ Route::get('/import/headings/', 'ImportController@importHeadings');
 
 
 Route::get('/plan/create', 'PlanController@createPlan');
+Route::get('/plan/display', 'PlanController@displayPlan');

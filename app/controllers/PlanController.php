@@ -12,6 +12,11 @@ class PlanController extends BaseController {
 		$plan->createPlan();
 	}
 
+	public function displayPlan() {
+		$plan = new Plan();
+		$plan->displayPlan();
+	}
+
 	
 
 }
