@@ -24,6 +24,7 @@ class ImportController extends BaseController {
 			$record->order = $book->ord;
 			$record->original_id = $book->id;
 			$record->version = $version;
+			$record->testament = $book->testament;
 			$last_bits = explode('.',$book->osis_end);
 			$record->end_chapter = $last_bits[1];
 			$record->end_verse = $last_bits[2];

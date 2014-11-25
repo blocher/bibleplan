@@ -13,7 +13,7 @@ class PlanController extends BaseController {
 	}
 
 	public function displayPlan() {
-		$plan = new Plan();
+		$plan = new Plan(90, 'eng-GNBDC', 'sequential', array('Matt','Mark','Luke','John'));
 		$plan->displayPlan();
 	}
 

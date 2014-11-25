@@ -30,3 +30,10 @@ Route::get('/import/headings/', 'ImportController@importHeadings');
 
 Route::get('/plan/create', 'PlanController@createPlan');
 Route::get('/plan/display', 'PlanController@displayPlan');
+
+
+// Route group for API versioning
+Route::group(array('prefix' => 'api/v1', /*'before' => 'auth.basic'*/), function()
+{
+    Route::resource('url', 'UrlController');
+});
