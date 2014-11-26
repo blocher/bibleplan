@@ -5,6 +5,9 @@
 
     RewriteEngine On
 
+    # Exclude directory from rewriting
+    RewriteRule ^bible - [L]
+
     # Redirect Trailing Slashes...
     RewriteRule ^(.*)/$ /$1 [L,R=301]
 
