@@ -12,6 +12,12 @@ class PlanController extends BaseController {
 		$plan->createPlan();
 	}
 
+	public function getPlan() {
+		$plan = new Plan();
+		$plan->createPlan();
+		return $plan;
+	}
+
 	public function displayPlan() {
 		$plan = new Plan(90, 'eng-GNBDC', 'sequential', array('Matt','Mark','Luke','John'));
 		$plan->displayPlan();

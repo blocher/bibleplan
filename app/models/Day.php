@@ -3,23 +3,29 @@
 class Day  {
 
 
-	protected $start_chapter;
-	protected $start_verse;
+	public $start_chapter;
+	public $start_verse;
 
-	protected $end_chapter;
-	protected $end_verse;
+	public $end_chapter;
+	public $end_verse;
 
-	protected $start_ot_chapter;
-	protected $start_ot_verse;
+	public $start_ot_chapter;
+	public $start_ot_verse;
 
-	protected $end_nt_chapter;
-	protected $end_nt_verse;
+	public $end_ot_chapter;
+	public $end_ot_verse;
 
-	protected $type;
+	public $start_nt_chapter;
+	public $start_nt_verse;
 
-	protected $headings;
-	protected $ot_headings;
-	protected $nt_headings;
+	public $end_nt_chapter;
+	public $end_nt_verse;
+
+	public $type;
+
+	public $headings;
+	public $ot_headings;
+	public $nt_headings;
 
 	public function __construct($headings) {
 
@@ -54,7 +60,7 @@ class Day  {
 			$last = $headings[0];
 		}
 	
-		$this->start_chpater = $first->start_chapter;
+		$this->start_chapter = $first->start_chapter;
 		$this->start_verse = $first->start_verse;
 
 		$this->end_chapter = $last->end_chapter;
@@ -63,14 +69,14 @@ class Day  {
 		$this->type = $first->testament;
 
 		if ($this->type=='NT') {
-			$this->start_nt_chpater = $first->start_chapter;
+			$this->start_nt_chapter = $first->start_chapter;
 			$this->start_nt_verse = $first->start_verse;
-			$this->start_ot_chpater = null;
+			$this->start_ot_chapter = null;
 			$this->start_ot_verse = null;
 		} else {
-			$this->start_ot_chpater = $first->start_chapter;
+			$this->start_ot_chapter = $first->start_chapter;
 			$this->start_ot_verse = $first->start_verse;
-			$this->start_nt_chpater = null;
+			$this->start_nt_chapter = null;
 			$this->start_nt_verse = null;
 		}
 
@@ -113,7 +119,7 @@ class Day  {
 	
 		$this->headings = array_merge($this->headings,$headings);
 
-		$this->start_chpater = $first->start_chapter;
+		$this->start_chapter = $first->start_chapter;
 		$this->start_verse = $first->start_verse;
 
 		$this->end_chapter = $last->end_chapter;
@@ -122,18 +128,19 @@ class Day  {
 		$this->type = $first->testament;
 
 		if ($this->type=='NT') {
-			$this->start_nt_chpater = $first->start_chapter;
+			$this->start_nt_chapter = $first->start_chapter;
 			$this->start_nt_verse = $first->start_verse;
-			$this->start_ot_chpater = null;
+			$this->start_ot_chapter = null;
 			$this->start_ot_verse = null;
 		} else {
-			$this->start_ot_chpater = $first->start_chapter;
+			$this->start_ot_chapter = $first->start_chapter;
 			$this->start_ot_verse = $first->start_verse;
-			$this->start_nt_chpater = null;
+			$this->start_nt_chapter = null;
 			$this->start_nt_verse = null;
 		}
 
 
 	}
 	
+
 }

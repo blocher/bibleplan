@@ -18,12 +18,7 @@ class Plan  {
 	
 	}
 
-	protected function createYear($testament=null) {
 
-
-		
-
-	}
 
 	public function createPlan() {
 
@@ -127,6 +122,16 @@ class Plan  {
 
 	}
 
+	public function getPlan() {
+
+		if (!isset($this->days) || empty($this->days)) {
+			$this->createPlan();
+		}
+
+		return $this->days;
+
+	}
+
 	public function displayPlan() {
 
 		if (!isset($this->days) || empty($this->days)) {
@@ -143,5 +148,23 @@ class Plan  {
 		}
 
 	}
+
+	public function __toString() {
+
+
+
+		$obj = [
+			'plan_name' => 'Test plan',
+			'num_days' => $this->num_days,
+			'version' => $this->version,
+			'type' => $this->type,
+			'days' => $this->days
+
+		];
+
+		return json_encode($obj);
+	}
+
+
 	
 }

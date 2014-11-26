@@ -122,6 +122,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Yangqi\Htmldom\HtmldomServiceProvider',
+		'Dingo\Api\ApiServiceProvider',
 
 	),
 
@@ -158,7 +159,8 @@ return array(
 		'Cache'             => 'Illuminate\Support\Facades\Cache',
 		'ClassLoader'       => 'Illuminate\Support\ClassLoader',
 		'Config'            => 'Illuminate\Support\Facades\Config',
-		'Controller'        => 'Illuminate\Routing\Controller',
+		'Controller' 		=> 'Dingo\Api\Routing\Controller',
+		/* 'Controller'        => 'Illuminate\Routing\Controller', */
 		'Cookie'            => 'Illuminate\Support\Facades\Cookie',
 		'Crypt'             => 'Illuminate\Support\Facades\Crypt',
 		'DB'                => 'Illuminate\Support\Facades\DB',
@@ -190,6 +192,7 @@ return array(
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
 		'Htmldom' 			=> 'Yangqi\Htmldom\Htmldom',
+		'API' 				=> 'Dingo\Api\Facades\API'
 
 	),
 
