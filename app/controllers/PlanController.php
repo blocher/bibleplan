@@ -13,7 +13,13 @@ class PlanController extends BaseController {
 	}
 
 	public function getPlan() {
-		$plan = new Plan();
+
+		$num_days = Input::get('num_days', 365);
+		$version = Input::get('version', 'eng-GNBDC');
+		$type = Input::get('version', 'sequential');
+		$books = Input::get('books', null);
+
+		$plan = new Plan($num_days,$version,$type,$books);
 		$plan->createPlan();
 		return $plan;
 	}

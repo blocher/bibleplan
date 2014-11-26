@@ -14,6 +14,9 @@ class Plan  {
 		$this->num_days = $num_days;
 		$this->version = $version;
 		$this->type = $type;
+		if (is_string($books)) {
+			$books = explode(',',$books);
+		}
 		$this->books = $books;
 	
 	}
@@ -158,6 +161,7 @@ class Plan  {
 			'num_days' => $this->num_days,
 			'version' => $this->version,
 			'type' => $this->type,
+			'books' => $this->books,
 			'days' => $this->days
 
 		];
