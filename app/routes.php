@@ -17,7 +17,7 @@ Route::get('/', function()
 	
 	$api = new BiblesApi();
 
-	echo 'Welcome to Bible Planner';
+	return View::make('home');
 
 	die();
 	

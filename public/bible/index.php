@@ -11,6 +11,8 @@
   </head>
   <body ng-controller="bibleCtrl">
     <div>
+      <input id="num_days" ng-model="num_days">
+
       <ul>
         <li ng-repeat="day in days.days ">
           <p>Day</p>
