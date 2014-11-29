@@ -11,7 +11,6 @@ class ImportController extends BaseController {
 	}
 
 	public function importBooks() {
-
 		$api = new BiblesApi();
 		$version = $this->version;
 		$books = $api->getBooks($version);
@@ -41,7 +40,7 @@ class ImportController extends BaseController {
 	public function importHeadings() {
 
 		$books = Book::where('version',$this->version)
-			//->where('order','>','41')
+			//->where('abbreviation','=','AddEsth')
 			->orderBy('order','ASC')
 			->get();
 		foreach ($books as $book) {
@@ -61,6 +60,7 @@ class ImportController extends BaseController {
 		$book_obj = Book::where('abbreviation',$book)
 			->where('version',$version)
 			->first();
+		
 		$end_chapter = $book_obj->end_chapter;
 
 		$headings = [];
@@ -68,25 +68,33 @@ class ImportController extends BaseController {
 
 		$previous_verse = '';
 		$previous_chapter = '';
+
 		for ($chapter=1; $chapter<=$end_chapter; $chapter++) {
 			$chapter_book_order = 1;
 		
 			$verse_num = 0;
 			
 			$api = new BiblesApi();	
+
 			$passage = $api->getPassage($book.' '.$chapter,$version);
 
 			if (!isset($passage->response->search->result->passages[0])) {
 				continue;
 			}
 			$result = $passage->response->search->result->passages[0]->text;
+			if ($result=='') {
+				continue;
+			}
 			$html = new Htmldom($result);
+
+			if (strpos(get_class($html),'Htmldom')===false) {
+				continue;
+			}
 			
 			// Find all images 
 
 
 			$elements = $html->find('h3,sup');
-			
 			foreach ($elements as $element) {
 		       if ($element->class=='s1') {
 
