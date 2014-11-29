@@ -45,7 +45,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">Bible Planner</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -70,25 +70,36 @@
 	     <div class="form-group">
 	     	{{ Form::select('version', $versions, Input::get('version','eng-KJVA'),['class'=>'form-control']) }}
 	     </div>
+
 	     <div class="form-group">
-	     	{{ Form::submit('Change settings!', ['class'=>'form-control btn btn-danger']) }}
+	     	{{ Form::select('books', $books, Input::get('books','GEN'),['class'=>'form-control','multiple'=>'multiple']) }}
+	     </div>
+
+	     <div class="form-group">
+	     	{{ Form::submit('Change settings!', ['class'=>'form-control btn btn-danger', 'id'=>'settings_submit']) }}
 	     </div>
 	    {{ Form::close() }}
         @foreach ($days as $day)
+        	
+        	<a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $day->i }}">
 	    		<div class="list-group-item active">
 	        		<div class="list-grou-text">
 	        			Day {{ $day->i }}
 	        		</div>
 	        	</div>
+	        </a>
 	    	<div class="list-group">
-
+	    	<div id="collapse{{ $day->i }}" class="panel-collapse collapse">
 		        	 @foreach ($day->headings as $heading)
 			        	<div class="list-group-item">
 			        		<div class="list-grou-text">
 			        			<strong>{{ $heading->name }} {{ $heading->start_chapter }}:{{ $heading->start_verse }} to {{ $heading->end_chapter }}:{{ $heading->end_verse }} </strong>: {{ $heading->heading_text }}
 			        		</div>
 			        	</div>
+			        	
 		        	@endforeach
+		        </div>
+		        </div>
 
         @endforeach
         
@@ -102,4 +113,27 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js"></script>
 </body>
+
+<script>
+	$("#settings_submit").click(function()) {
+		alert ('hi');
+		$("#settings_submit").val(list_to_string($("#settings_submit").val());
+	});
+    function list_to_string()
+    {
+        var list = document.getElementById('list');
+        var chkBox = document.getElementById('chk');
+        var str = document.getElementById('str');
+        textstring = "";
+        for(var i = 0; i < list.options.length; ++i){
+            comma = ",";
+            if (i == (list.options.length)-1){
+                comma = "";
+            }
+            textstring = textstring + list[i].value + comma;
+            str.value = textstring;
+        }
+
+    }
+ </script>
 </html>
