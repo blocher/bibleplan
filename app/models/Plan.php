@@ -3,13 +3,13 @@
 class Plan  {
 
 
-	protected $num_days;
-	protected $version;
-	protected $days;
-	protected $type;
-	protected $books;
+	public $num_days;
+	public $version;
+	public $days;
+	public $type;
+	public $books;
 
-	public function __construct($num_days=365, $version='eng-GNBDC', $type='concurrent', $books=null) {
+	public function __construct($num_days=365, $version='eng-GNBDC', $type='sequential', $books=null) {
 
 		$this->num_days = $num_days;
 		$this->version = $version;
@@ -24,7 +24,6 @@ class Plan  {
 
 
 	public function createPlan() {
-
 		$headings = Heading::
 			leftJoin('books', function($join) 
                 {
@@ -32,17 +31,16 @@ class Plan  {
                     $join->on('headings.version','=', 'books.version');
                 })
 			->where('headings.version',$this->version)
-			->select('headings.*','books.testament','books.order')
+			->select('headings.*','books.testament','books.order', 'books.name')
 			->orderBy('books.order','ASC')
 			->orderBy('headings.start_chapter','ASC')
 			->orderBy('headings.start_verse','ASC');
 		$books = $this->books;
 		if ($books!=null && is_array($books)) {
-			//$books = "'" . implode("', '", $books) . "'";
 			$headings->whereIn('books.abbreviation',$books);
 		}
-
 		if ($this->type=='concurrent') {
+
 			$ot_headings = clone $headings;
 			$nt_headings = clone $headings;
 
@@ -60,7 +58,6 @@ class Plan  {
 			
 
 		} else {
-
 			$headings = $headings->get();
 			$total = count($headings);
 			$per_day = floor($total/$this->num_days);
@@ -96,7 +93,7 @@ class Plan  {
 				}
 
 				if (count($day)>0) {
-					$days[] = new Day($day);
+					$days[] = new Day($day,$i);
 				}
 
 			} else {
@@ -110,7 +107,7 @@ class Plan  {
 				}
 
 				if (count($day)>0) {
-					$days[] = new Day($day);
+					$days[] = new Day($day,$i);
 				}
 			}
 		}

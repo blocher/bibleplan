@@ -13,11 +13,15 @@
 
 Route::get('/', function()
 {
-
 	
 	$api = new BiblesApi();
-
-	return View::make('home');
+	$plan = API::with(['num_days'=>Input::get('num_days',365),'version'=>Input::get('version','eng-GNBDC')])->get('plan');
+	$days = $plan->days;
+	$versions = API::get('versions');
+	return View::make('home')
+		->with('days',$days)
+		->with('versions',$versions)
+	;
 
 	die();
 	
@@ -34,5 +38,6 @@ Route::get('/plan/display', 'PlanController@displayPlan');
 Route::api(['version'=>'v1', 'prefix'=>'api'], function() {
 
 	Route::get('plan', 'PlanController@getPlan');
+	Route::get('versions', 'PlanController@getVersions');
 
 });

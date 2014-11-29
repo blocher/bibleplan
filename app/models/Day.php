@@ -27,8 +27,11 @@ class Day  {
 	public $ot_headings;
 	public $nt_headings;
 
-	public function __construct($headings) {
+	public $i;
 
+	public function __construct($headings, $i) {
+
+		$this->i = $i+1;
 		$this->headings = $headings;
 
 		foreach ($headings as $heading) {

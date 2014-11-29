@@ -6,7 +6,7 @@ class ImportController extends BaseController {
 
 	public $version;
 
-	public function __construct($version='eng-GNBDC') {		
+	public function __construct($version='eng-KJVA') {		
 		$this->version = $version;
 	}
 

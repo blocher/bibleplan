@@ -13,9 +13,10 @@ class PlanController extends BaseController {
 	}
 
 	public function getPlan() {
-
+		
 		$num_days = Input::get('num_days', 365);
 		$version = Input::get('version', 'eng-GNBDC');
+
 		$type = Input::get('version', 'sequential');
 		$books = Input::get('books', null);
 
@@ -27,6 +28,10 @@ class PlanController extends BaseController {
 	public function displayPlan() {
 		$plan = new Plan(90, 'eng-GNBDC', 'sequential', array('Matt','Mark','Luke','John'));
 		$plan->displayPlan();
+	}
+
+	public function getVersions() {
+		return $versions = Version::lists('name','abbreviation');
 	}
 
 	
