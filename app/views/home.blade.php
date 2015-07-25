@@ -82,7 +82,7 @@
 	      <div class="form-group">
 	      	<p>&nbsp;</p>
 	      	<h4>Length of reading plan in days</h4>
-	      	{{ Form::text('num_days', Input::get('num_days',365), ['class'=>'form-control bfh-number', 'data-min'=>1, 'data-max'=>365]); }}
+	      	{{ Form::text('num_days', Input::get('num_days',365), ['class'=>'form-control bfh-number', 'data-min'=>1, 'data-max'=>3650]); }}
 	     </div>
 
 	     <div class="form-group">
