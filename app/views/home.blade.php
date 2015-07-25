@@ -132,11 +132,10 @@
     <!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js"></script>
-</body>
 
 <script>
-	$("#settings_submit").click(function()) {
-		alert ('hi');
+/*
+	$("#settings_submit").click(function() {
 		$("#settings_submit").val(list_to_string($("#settings_submit").val());
 	});
     function list_to_string()
@@ -155,5 +154,9 @@
         }
 
     }
+*/
  </script>
+</body>
+
+
 </html>
