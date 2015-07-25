@@ -7,7 +7,7 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"yangqi/htmldom": "dev-master",
-		"dingo/api": "0.*"
+		"dingo/api": "0.6.6"
 	},
 	"autoload": {
 		"classmap": [
